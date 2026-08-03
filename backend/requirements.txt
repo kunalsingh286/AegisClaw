@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+httpx
+redis
+pytest
+pytest-asyncio
+reportlab
+asyncpg
+sqlalchemy[asyncio]
+aiosqlite
+passlib[bcrypt]
+bcrypt==3.2.2
+PyJWT
