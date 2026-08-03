@@ -95,7 +95,7 @@ export default function LoginPage() {
         </form>
         
         <div className="mt-8 text-center text-sm text-gray-500 font-light">
-          Don't have an account? <Link href="/pricing" className="text-white hover:text-[#00F0FF] transition-colors font-medium border-b border-white/20 hover:border-[#00F0FF]">View pricing</Link>
+          Don't have an account? <Link href="/register" className="text-white hover:text-[#00F0FF] transition-colors font-medium border-b border-white/20 hover:border-[#00F0FF]">Sign up here</Link>
         </div>
       </div>
     </div>
