@@ -96,6 +96,28 @@ export default function Dashboard() {
     }
   };
 
+  const downloadPdf = async () => {
+    const token = localStorage.getItem('aegisclaw_auth');
+    if (!token) return;
+    try {
+      const res = await fetch(`${API_BASE}/admin/reports/pdf`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error("Failed to download PDF");
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = "AegisClaw_CISO_Audit_Report.pdf";
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   const spendPercentage = Math.min((stats.daily_aggregate_spend / 50000) * 100, 100);
 
   const [activeRegion, setActiveRegion] = useState("IN");
@@ -150,14 +172,13 @@ export default function Dashboard() {
             >
               API KEYS
             </Link>
-            <a 
-              href={`${API_BASE}/admin/reports/pdf`}
-              download
+            <button 
+              onClick={downloadPdf}
               className="px-6 py-2.5 text-xs font-bold font-mono tracking-widest transition-all bg-[#006FCF]/10 hover:bg-[#006FCF]/20 border border-[#006FCF]/30 hover:border-[#006FCF]/60 text-[#00F0FF] rounded-full flex items-center shadow-lg hover:shadow-[0_0_15px_rgba(0,111,207,0.3)]"
             >
               <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
               PDF AUDIT
-            </a>
+            </button>
             <button 
               onClick={toggleKillswitch}
               className={`px-8 py-3 text-xs font-black font-mono tracking-widest transition-all rounded-full flex items-center justify-center relative overflow-hidden group ${
