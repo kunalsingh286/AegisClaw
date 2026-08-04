@@ -27,14 +27,19 @@ export default function Dashboard() {
     }
 
     const fetchData = async () => {
+      const token = localStorage.getItem('aegisclaw_auth');
+      if (!token) return;
+
+      const headers = { 'Authorization': `Bearer ${token}` };
+
       try {
-        const statsRes = await fetch(`${API_BASE}/admin/stats`);
+        const statsRes = await fetch(`${API_BASE}/admin/stats`, { headers });
         if (statsRes.ok) setStats(await statsRes.json());
         
-        const logsRes = await fetch(`${API_BASE}/admin/logs`);
+        const logsRes = await fetch(`${API_BASE}/admin/logs`, { headers });
         if (logsRes.ok) setLogs(await logsRes.json());
         
-        const appRes = await fetch(`${API_BASE}/admin/approvals`);
+        const appRes = await fetch(`${API_BASE}/admin/approvals`, { headers });
         if (appRes.ok) setApprovals(await appRes.json());
       } catch (err) {
         console.error("Error fetching admin APIs", err);
@@ -46,18 +51,28 @@ export default function Dashboard() {
   }, [router]);
 
   const toggleKillswitch = async () => {
+    const token = localStorage.getItem('aegisclaw_auth');
+    if (!token) return;
     try {
-      await fetch(`${API_BASE}/admin/killswitch/toggle`, { method: 'POST' });
+      await fetch(`${API_BASE}/admin/killswitch/toggle`, { 
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
     } catch (err) {
       console.error(err);
     }
   };
 
   const resolveApproval = async (id: string, decision: string) => {
+    const token = localStorage.getItem('aegisclaw_auth');
+    if (!token) return;
     try {
       await fetch(`${API_BASE}/admin/approval/${id}/decision`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
         body: JSON.stringify({ decision })
       });
     } catch (err) {
