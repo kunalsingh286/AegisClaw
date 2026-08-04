@@ -1,38 +1,48 @@
-# AEGISCLAW: Global Market Value & Regulatory Implementation
+# AEGISCLAW: Global Market Capabilities & Regulatory Mapping
 
-AegisClaw is not a generic proxy. It is a highly specialized, market-aware regulatory engine. When pitching to Chief Information Security Officers (CISOs), the key is proving that our technical implementation maps directly to the specific legal frameworks they are most afraid of violating.
+AegisClaw is not a generic "AI wrapper." It is a precision-engineered compliance firewall designed specifically for highly regulated enterprise environments. By simply attaching the `X-Compliance-Region` header to their AI agent's network requests, our enterprise customers instantly activate mathematical enforcement of their local laws.
 
-This document details exactly how AegisClaw dynamically protects the three largest global markets through the `x-compliance-region` header.
-
----
-
-## 🇮🇳 INDIA MARKET: DPDP Act 2023 & RBI eMRM
-**The Threat:** Indian regulators (RBI) heavily penalize autonomous systems executing unauthorized financial transactions, and the new DPDP Act threatens massive fines for exfiltrating sensitive citizen data to third-party LLMs.
-
-**How AegisClaw Solves It (Technical Implementation):**
-1. **Contextual Aadhaar Masking:** When `x-compliance-region: IN` is detected, AegisClaw configures its Layer 3 NLP engine (Microsoft Presidio) to specifically target and redact Indian Aadhaar numbers (`IN_AADHAAR`) in memory before the request ever reaches OpenAI.
-2. **RBI Financial Guardrails:** AegisClaw's AWS Cedar engine dynamically loads `default_tenant.cedar`. It mathematically restricts AI agents from executing financial transactions (like UPI refunds) exceeding specific Rupee thresholds without triggering the Human-in-the-Loop (HITL) approval queue.
-3. **Zero-Trust Fallback:** By default, if an Indian AI agent attempts to hit an unregistered financial endpoint, the Layer 3 firewall instantly rejects it with `403 Forbidden`.
+This document details exactly how AegisClaw technically fulfills the regulatory requirements of our three primary target markets.
 
 ---
 
-## 🇺🇸 UNITED STATES MARKET: HIPAA & NIST AI RMF
-**The Threat:** American healthcare and financial sectors are paralyzed by the fear of leaking Protected Health Information (PHI) to AI models, violating HIPAA. Additionally, NIST AI Risk Management Frameworks demand strict boundaries on what an autonomous system can execute.
+## 🇮🇳 INDIA: DPDP Act 2023 & RBI eMRM Framework
 
-**How AegisClaw Solves It (Technical Implementation):**
-1. **NIST Boundary Enforcement:** AegisClaw dynamically loads `us_hipaa_nist.cedar`. This Policy-as-Code explicitly blocks destructive, high-risk API mutations (e.g., `database_deletion`, `bulk_user_export`) initiated by an AI `customer_bot` role, neutralizing the risk of a jailbroken AI destroying an enterprise database.
-2. **HIPAA PHI Egress Filtering:** The NLP masking engine actively scans American traffic for US Social Security Numbers, phone numbers, and contextual medical phrasing. If it detects a patient data leak attempt, it triggers a `phi_egress` action and intercepts the payload before it leaves the company's VPC.
+For Indian financial institutions and fintechs, the massive fines introduced by the Digital Personal Data Protection (DPDP) Act and the strict constraints of the RBI's Enterprise Model Risk Management (eMRM) guidelines make deploying autonomous AI highly risky. AegisClaw completely de-risks this.
+
+### Technical Implementation:
+1. **Dynamic Aadhaar & UPI Redaction:** 
+   Our Microsoft Presidio NLP integration is tuned for the Indian market. It actively scans the payload context for Indian-specific PII (e.g., 12-digit Aadhaar numbers, PAN cards). If an AI agent attempts to send an Aadhaar number to OpenAI, AegisClaw intercepts and masks it in memory before it leaves the Indian VPC.
+2. **RBI Financial Guardrails (Cedar Policy):** 
+   Using the `default_tenant.cedar` policy, AegisClaw mathematically caps unauthorized financial transactions (e.g., UPI refunds) at ₹1,000. 
+3. **Automated Step-up Queue (HITL):** 
+   If an AI attempts a high-value transaction, AegisClaw automatically halts the request, suspends execution, and pushes the payload to the CISO Dashboard via Redis. A human administrator must manually approve the action to satisfy RBI human-oversight mandates.
+
+---
+
+## 🇺🇸 UNITED STATES: HIPAA & NIST AI RMF 1.0
+
+US healthcare organizations and financial services cannot adopt autonomous agents if those agents are capable of breaching PHI (Protected Health Information) or taking unauthorized destructive actions.
+
+### Technical Implementation:
+1. **PHI Egress Blocking (HIPAA):** 
+   AegisClaw uses heuristic scanning (Gate 2) and NLP (Gate 6) to detect patient data. Any attempt to egress sensitive health records instantly triggers the `phi_egress` action mapping, which is explicitly denied by our `us_hipaa_nist.cedar` policy.
+2. **Deterministic Action Halting (NIST):**
+   The NIST AI Risk Management Framework requires strict bounding of autonomous capabilities. AegisClaw maps REST endpoints to hard actions. High-risk vectors like `/api/v1/db/delete` are mapped to `database_deletion`. The AWS Cedar engine mathematically blocks these actions from executing unless initiated by a pre-authorized principal, neutralizing the risk of a rogue AI agent destroying a production database.
 
 ---
 
-## 🇪🇺 EUROPEAN UNION MARKET: AI Act & GDPR
-**The Threat:** The EU AI Act is the strictest AI regulation on the planet. Article 14 demands human oversight for high-risk autonomous systems, and Article 12 mandates strict, tamper-proof logging. GDPR demands data minimization.
+## 🇪🇺 EUROPEAN UNION: AI Act (2024) & GDPR
 
-**How AegisClaw Solves It (Technical Implementation):**
-1. **Article 14 Human-in-the-Loop (HITL):** When a high-risk action is initiated (e.g., executing massive wire transfers), AegisClaw's FinOps Gateway intercepts it. It places the transaction in a frozen state in a Redis queue, pushing a live alert to the CISO Dashboard. The AI cannot proceed until a human clicks "Approve" (fulfilling Article 14).
-2. **Article 12 Cryptographic Ledgers:** AegisClaw logs every single blocked injection, token cost, and AI action. To prevent log tampering, it links them using a SHA-256 Merkle chain. The CISO can download a "PDF AUDIT" containing cryptographic proof of compliance for 10-year record retention.
-3. **GDPR Data Minimization:** Because AegisClaw redacts PII in RAM during the transaction, the sensitive data is never permanently stored in the audit logs, fully satisfying GDPR data minimization laws.
+The EU AI Act classifies many autonomous AI systems as "High-Risk," requiring exhaustive auditing, human oversight, and data minimization. Non-compliance risks catastrophic GDPR-level fines (up to 7% of global revenue).
+
+### Technical Implementation:
+1. **Article 12: Immutable 10-Year Audit Trails:** 
+   To satisfy the AI Act's rigorous transparency and logging requirements, AegisClaw does not just write text logs. It uses a **SHA-256 Merkle-Tree Hash Chain** built directly into Redis. Every transaction's hash includes the hash of the previous transaction. CISOs can instantly download a Cryptographic PDF Audit that legally proves to EU regulators that the AI logs have never been tampered with.
+2. **Article 14: Mandatory Human Oversight:** 
+   Our Prompt Guard layer and HITL interceptor ensure that high-risk requests (e.g., large wire transfers) trigger the `eu_ai_act.cedar` step-up policy, enforcing human-in-the-loop validation before execution.
+3. **GDPR Data Minimization:** 
+   By applying the EU Presidio profile, IBANs, passport numbers, and other EU-centric PII are automatically redacted. This ensures the enterprise complies with the GDPR principle of data minimization—never sending PII to a third-party LLM provider unless absolutely necessary.
 
 ---
-**The Competitive Advantage:** 
-Instead of forcing an enterprise to buy three different software packages to operate globally, AegisClaw handles all three markets dynamically within a single, sub-5ms unified proxy container.
+*AegisClaw transforms compliance from a slow, legal roadblock into a high-speed, automated engineering primitive.*
