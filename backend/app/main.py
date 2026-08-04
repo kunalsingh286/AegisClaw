@@ -62,6 +62,10 @@ async def startup_event():
     # Pre-load PII engine to minimize latency overhead during requests
     pii_engine.mask_text("preload")
 
+@app.get("/")
+async def root():
+    return {"status": "AegisClaw Backend API is Live!", "version": "1.0", "message": "Ready to receive traffic"}
+
 @app.on_event("shutdown")
 async def shutdown_event():
     if http_client:

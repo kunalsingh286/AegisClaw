@@ -15,7 +15,7 @@ export default function LoginPage() {
     setLoading(true);
     
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://justambition.up.railway.app';
       const res = await fetch(`${apiBase}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
