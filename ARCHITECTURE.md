@@ -11,10 +11,10 @@ AegisClaw is the world's first unified AI control plane, providing centralized o
 ```mermaid
 graph TB
     subgraph "Client Layer"
-        Web["Web Dashboard"]
-        CLI["CLI Interface"]
-        SDK["SDK/API Client"]
-        AIAgents["AI Agents"]
+        Web["🖥️ Web Dashboard"]
+        CLI["⌨️ CLI Interface"]
+        SDK["📦 SDK/API Client"]
+        AIAgents["🤖 AI Agents"]
     end
 
     subgraph "API Gateway & Routing"
@@ -38,13 +38,13 @@ graph TB
     end
 
     subgraph "Integration Layer"
-        LLMProviders["LLM Providers<br/>OpenAI, Claude,<br/>Anthropic, etc."]
+        LLMProviders["🔌 LLM Providers<br/>OpenAI, Claude,<br/>Anthropic, etc."]
         UpstreamProxy["Upstream Egress<br/>& Encryption"]
     end
 
     subgraph "State & Storage"
         Redis["Redis State Store<br/>ZSET, Pub/Sub,<br/>In-Memory Cache"]
-        Database[(Persistent Store)]
+        Database["💾 Persistent Store"]
     end
 
     subgraph "Audit & Compliance"
@@ -54,9 +54,9 @@ graph TB
     end
 
     subgraph "Monitoring & Reporting"
-        Logger["Async Logger"]
-        Metrics["Metrics & Analytics"]
-        AuditReport["PDF Audit Report<br/>Generator"]
+        Logger["📝 Async Logger"]
+        Metrics["📊 Metrics & Analytics"]
+        AuditReport["📄 PDF Audit Report<br/>Generator"]
     end
 
     AIAgents --> Gateway
@@ -104,31 +104,23 @@ graph TB
     AuditLedger --> AuditReport
     Web --> AuditReport
 
-    style Web fill:#e1f5ff
-    style CLI fill:#e1f5ff
-    style SDK fill:#e1f5ff
-    style AIAgents fill:#e1f5ff
-    style Gateway fill:#fff3e0
-    style Auth fill:#fff3e0
-    style RoutingEngine fill:#fff3e0
-    style PromptGuard fill:#f3e5f5
-    style FinOps fill:#f3e5f5
-    style KillSwitch fill:#f3e5f5
-    style PolicyEngine fill:#f3e5f5
-    style PIIEngine fill:#f3e5f5
-    style TenantIsolation fill:#c8e6c9
-    style TokenCalculator fill:#c8e6c9
-    style PolicyValidator fill:#c8e6c9
-    style LLMProviders fill:#e8f5e9
-    style UpstreamProxy fill:#e8f5e9
-    style Redis fill:#fce4ec
-    style Database fill:#fce4ec
-    style AuditEngine fill:#fff9c4
-    style AuditLedger fill:#fff9c4
-    style HumanInLoop fill:#fff9c4
-    style Logger fill:#f1f8e9
-    style Metrics fill:#f1f8e9
-    style AuditReport fill:#f1f8e9
+    classDef clientStyle fill:#2196F3,stroke:#1565C0,stroke-width:2px,color:#fff
+    classDef gatewayStyle fill:#FF9800,stroke:#E65100,stroke-width:2px,color:#fff
+    classDef securityStyle fill:#9C27B0,stroke:#6A1B9A,stroke-width:2px,color:#fff
+    classDef processingStyle fill:#4CAF50,stroke:#2E7D32,stroke-width:2px,color:#fff
+    classDef integrationStyle fill:#00BCD4,stroke:#00838F,stroke-width:2px,color:#fff
+    classDef storageStyle fill:#E91E63,stroke:#AD1457,stroke-width:2px,color:#fff
+    classDef auditStyle fill:#FBC02D,stroke:#F57F17,stroke-width:2px,color:#000
+    classDef monitorStyle fill:#8BC34A,stroke:#558B2F,stroke-width:2px,color:#fff
+
+    class Web,CLI,SDK,AIAgents clientStyle
+    class Gateway,Auth,RoutingEngine gatewayStyle
+    class PromptGuard,FinOps,KillSwitch,PolicyEngine,PIIEngine securityStyle
+    class TenantIsolation,TokenCalculator,PolicyValidator processingStyle
+    class LLMProviders,UpstreamProxy integrationStyle
+    class Redis,Database storageStyle
+    class AuditEngine,AuditLedger,HumanInLoop auditStyle
+    class Logger,Metrics,AuditReport monitorStyle
 ```
 
 ---
