@@ -15,7 +15,7 @@ export default function RegisterPage() {
     setLoading(true);
     
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://justambition.up.railway.app';
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
       const res = await fetch(`${apiBase}/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
